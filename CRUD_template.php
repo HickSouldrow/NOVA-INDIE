@@ -184,17 +184,20 @@ if ($result && $result->num_rows > 0) {
             <?php endforeach; ?>
             <td class="px-4 py-2 text-center">
                 <div class="flex justify-center gap-2">
-                    <form method="POST" action="crud_delete.php">
-                        <input type="hidden" name="tabela" value="<?php echo $tabela; ?>">
                         <?php
                         // Identifica o campo PK dinamicamente como o primeiro atributo
                         $pk_field = $fields[0]->name; 
                         ?>
-                        <input type="hidden" name="id" value="<?php echo $row[$pk_field]; ?>">
-                        <button type="submit" class="py-1 px-2 bg-[#101014] hover:bg-[#101014] text-red-500 border border-red-500 rounded text-sm">
-                            Excluir
-                        </button>
-                    </form>
+                      <button type="button" 
+    onclick="openDeleteModal(
+        '<?php echo $row[$pk_field]; ?>', 
+        <?php echo htmlspecialchars(json_encode($row)); ?>, 
+        <?php echo htmlspecialchars(json_encode(array_column($fields, 'name'))); ?>
+    )" 
+    class="py-1 px-2 bg-[#101014] hover:bg-[#101014] text-red-500 border border-red-500 rounded text-sm">
+    Excluir
+</button>
+
                     <button href="#" onclick="openEditModal(
                             '<?php echo $row[$pk_field]; ?>', 
                             <?php echo htmlspecialchars(json_encode($row)); ?>, 
@@ -215,10 +218,21 @@ if ($result && $result->num_rows > 0) {
                     </tbody>
                 </table>
             </div>
+            <?php
+        if (isset($_GET['msg']) && $_GET['msg'] === 'deleted') {
+            echo '<p class="text-center text-red-500">Registro excluído com sucesso!</p>';
+        }
+       
+        if (isset($_GET['msg']) && $_GET['msg'] === 'updated') {
+            echo '<p class="text-center mt-4 text-yellow-500">Registro atualizado com sucesso!</p>';
+        }
+        ?>
             <section class="bg-gray-900 mt-16 p-8 rounded-xl shadow-2xl mb-8 max-w-3xl mx-auto">
     <h2 class="text-center text-2xl font-bold mb-6 text-white">
         Gerenciar <?php echo ucfirst($tabela); ?>
     </h2>
+
+    
     <form method="POST" action="crud_create.php?tabela=<?php echo $tabela; ?>" class="space-y-6">
     <?php
     // Obtem os campos da tabela dinamicamente
@@ -257,15 +271,39 @@ if ($result && $result->num_rows > 0) {
 
 </section>
 
-        <?php
-        if (isset($_GET['msg']) && $_GET['msg'] === 'deleted') {
-            echo '<p class="text-center text-red-500">Registro excluído com sucesso!</p>';
-        }
-        ?>
+
     </main>
     <?php include 'includes/footer.php'; ?>
 
     <script>
+function openDeleteModal(pkValue, rowData, columnNames) {
+    // Mostra o modal
+    document.getElementById('deleteModal').classList.remove('hidden');
+
+    // Define o valor da chave primária no campo hidden
+    document.getElementById('deletePk').value = pkValue;
+
+    // Container para os campos do formulário
+    const deleteFields = document.getElementById('deleteFields');
+    deleteFields.innerHTML = '';
+
+    // Cria os campos para exibir os dados do registro
+    columnNames.forEach((columnName) => {
+        const value = rowData[columnName] || '';
+        const fieldHTML = `
+            <div>
+                <label class="block text-sm font-semibold text-gray-300 mb-2">${columnName}</label>
+                <p class="bg-gray-700 text-gray-400 border border-gray-600 rounded-lg w-full p-2">${value}</p>
+            </div>
+        `;
+        deleteFields.innerHTML += fieldHTML;
+    });
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+}
+
 function openEditModal(pkValue, rowData, columnNames) {
     // Mostra o modal
     document.getElementById('editModal').classList.remove('hidden');
@@ -298,6 +336,24 @@ function closeEditModal() {
     document.getElementById('editModal').classList.add('hidden');
 }
 </script>
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 max-w-lg w-full max-h-[90%] overflow-y-auto">
+        <h2 class="text-lg font-semibold mb-4">Confirmação de Exclusão</h2>
+        <form id="deleteForm" method="POST" action="crud_delete.php">
+            <input type="hidden" name="tabela" value="<?php echo $tabela; ?>">
+            <input type="hidden" id="deletePk" name="id" value="">
+
+            <!-- Exibição dos dados do registro -->
+            <div id="deleteFields" class="space-y-4 max-h-80 overflow-y-auto pr-2"></div>
+
+            <!-- Botões -->
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="closeDeleteModal()" class="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded-lg">Cancelar</button>
+                <button type="submit" class="py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-lg">Excluir</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 max-w-lg w-full max-h-[90%] overflow-y-auto">
@@ -313,6 +369,7 @@ function closeEditModal() {
                 <button type="button" onclick="closeEditModal()" class="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded-lg">Cancelar</button>
                 <button type="submit" class="py-2 px-4 bg-purple-600 hover:bg-purple-500 text-white rounded-lg">Salvar</button>
             </div>
+
         </form>
     </div>
 </div>

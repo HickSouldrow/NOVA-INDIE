@@ -34,11 +34,13 @@ $result = $conn->query($sql);
 
 <main class="mx-auto max-w-screen-xl px-6 md:px-12 lg:px-16 py-4 mt-16 flex-grow"> <!-- Ajustado para max-w-screen-xl e padding lateral -->
     <!-- Imagem de destaque no topo -->
+     <a href= "jogo_template.php?CodJogo=30">
     <div class="relative w-full h-96 overflow-hidden mb-6">
         <img src="assets/img/lancamentos.png" alt="lancamentos" class="absolute inset-0 object-cover w-full h-full" style="filter: brightness(0.7);">
         <div class="absolute inset-0 flex items-center justify-center">
         </div>
     </div>
+</a>
 
     <div class="text-center mb-6">
         <h2 class="text-4xl font-bold text-gray-300">Jogos em Lançamentos</h2>

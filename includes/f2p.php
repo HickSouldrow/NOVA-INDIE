@@ -28,7 +28,7 @@
             if ($resultPaid->num_rows > 0) {
                 $row = $resultPaid->fetch_assoc();
                 echo "<a href='jogo_template.php?CodJogo=" . $row['CodJogo'] . "' class='block shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl mx-2' style='flex: 0 0 calc(33.33% - 16px);'>"; 
-                echo "<img src='assets/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-60 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>"; 
+                echo "<img src='assets/jogos/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-60 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>"; 
                 echo "<div class='p-4'>"; 
                 echo "<p class='text-gray-300 text-sm'>Jogo Pago</p>"; 
                 echo "<p class='text-lg font-bold'>" . htmlspecialchars($row['nome']) . "</p>";
