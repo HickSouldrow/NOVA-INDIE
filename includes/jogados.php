@@ -56,21 +56,26 @@ $conn->close();
                 $desconto = $jogo['desconto'];
                 $precoFinal = $precoOriginal - ($precoOriginal * ($desconto / 100));
             ?>
-            <a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
-                <!-- Imagem menor e cobrindo a lateral do card -->
-                <div class="w-20 h-full bg-cover bg-center rounded-l-lg" style="background-image: url('assets/jogos/<?= $jogo['nome'] ?>/thumbnail0.png');"></div>
-                <div class="flex flex-col justify-between ml-4 w-full">
-                    <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
-                    <div class="flex items-center space-x-2">
-                        <?php if ($desconto > 0): ?>
-                        <span class="line-through text-gray-400"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <span class="text-green-400 font-bold"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
-                        <?php else: ?>
-                        <span class="text-gray-300"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </a>
+<a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
+    <!-- Imagem menor e cobrindo a lateral do card -->
+    <div class="w-20 h-full">
+        <img src="assets/jogos/<?= htmlspecialchars($jogo['nome']) ?>/thumbnail0.png" 
+             alt="Imagem do jogo <?= htmlspecialchars($jogo['nome']) ?>" 
+             class="w-full h-full object-cover rounded-l-lg">
+    </div>
+    <div class="flex flex-col justify-between ml-4 w-full">
+        <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
+        <div class="flex items-center mt-2">
+            <?php if ($desconto > 0): ?>
+                <span class="line-through text-gray-400 text-sm"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+                <span class="text-green-400 font-bold text-lg ml-2"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
+            <?php else: ?>
+                <span class="text-gray-300 text-lg"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+            <?php endif; ?>
+        </div>
+    </div>
+</a>
+
             <?php endforeach; ?>
         </div>
     </div>
@@ -84,21 +89,26 @@ $conn->close();
                 $desconto = $jogo['desconto'];
                 $precoFinal = $precoOriginal - ($precoOriginal * ($desconto / 100));
             ?>
-            <a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
-                <!-- Imagem menor e cobrindo a lateral do card -->
-                <div class="w-20 h-full bg-cover bg-center rounded-l-lg" style="background-image: url('assets/jogos/<?= $jogo['nome'] ?>/thumbnail0.png');"></div>
-                <div class="flex flex-col justify-between ml-4 w-full">
-                    <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
-                    <div class="flex items-center space-x-2">
-                        <?php if ($desconto > 0): ?>
-                        <span class="line-through text-gray-400"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <span class="text-green-400 font-bold"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
-                        <?php else: ?>
-                        <span class="text-gray-300"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </a>
+<a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
+    <!-- Imagem menor e cobrindo a lateral do card -->
+    <div class="w-20 h-full">
+        <img src="assets/jogos/<?= htmlspecialchars($jogo['nome']) ?>/thumbnail0.png" 
+             alt="Imagem do jogo <?= htmlspecialchars($jogo['nome']) ?>" 
+             class="w-full h-full object-cover rounded-l-lg">
+    </div>
+    <div class="flex flex-col justify-between ml-4 w-full">
+        <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
+        <div class="flex items-center mt-2">
+            <?php if ($desconto > 0): ?>
+                <span class="line-through text-gray-400 text-sm"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+                <span class="text-green-400 font-bold text-lg ml-2"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
+            <?php else: ?>
+                <span class="text-gray-300 text-lg"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+            <?php endif; ?>
+        </div>
+    </div>
+</a>
+
             <?php endforeach; ?>
         </div>
     </div>
@@ -112,21 +122,26 @@ $conn->close();
                 $desconto = $jogo['desconto'];
                 $precoFinal = $precoOriginal - ($precoOriginal * ($desconto / 100));
             ?>
-            <a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
-                <!-- Imagem menor e cobrindo a lateral do card -->
-                <div class="w-20 h-full bg-cover bg-center rounded-l-lg" style="background-image: url('assets/jogos/<?= $jogo['nome'] ?>/thumbnail0.png');"></div>
-                <div class="flex flex-col justify-between ml-4 w-full">
-                    <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
-                    <div class="flex items-center space-x-2">
-                        <?php if ($desconto > 0): ?>
-                        <span class="line-through text-gray-400"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <span class="text-green-400 font-bold"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
-                        <?php else: ?>
-                        <span class="text-gray-300"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </a>
+     <a href="jogo_template.php?CodJogo=<?= $jogo['CodJogo'] ?>" class="flex p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
+    <!-- Imagem menor e cobrindo a lateral do card -->
+    <div class="w-20 h-full">
+        <img src="assets/jogos/<?= htmlspecialchars($jogo['nome']) ?>/thumbnail0.png" 
+             alt="Imagem do jogo <?= htmlspecialchars($jogo['nome']) ?>" 
+             class="w-full h-full object-cover rounded-l-lg">
+    </div>
+    <div class="flex flex-col justify-between ml-4 w-full">
+        <p class="text-white font-bold truncate"><?= htmlspecialchars($jogo['nome']) ?></p>
+        <div class="flex items-center mt-2">
+            <?php if ($desconto > 0): ?>
+                <span class="line-through text-gray-400 text-sm"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+                <span class="text-green-400 font-bold text-lg ml-2"><?= "R$ " . number_format($precoFinal, 2, ',', '.') ?></span>
+            <?php else: ?>
+                <span class="text-gray-300 text-lg"><?= "R$ " . number_format($precoOriginal, 2, ',', '.') ?></span>
+            <?php endif; ?>
+        </div>
+    </div>
+</a>
+
             <?php endforeach; ?>
         </div>
     </div>

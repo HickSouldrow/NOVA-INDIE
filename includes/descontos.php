@@ -17,7 +17,7 @@
                     $precoFinal = $precoOriginal - ($precoOriginal * ($desconto / 100));
 
                     // Card do jogo com desconto
-                    echo "<a href='jogo_template.php?CodJogo=" . $row['CodJogo'] . "' class='block bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl' style='width: 240px; flex-shrink: 0;'>";
+                    echo "<a href='jogo_template.php?CodJogo=" . $row['CodJogo'] . "' class='block bg-gray-900 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl' style='width: 240px; flex-shrink: 0;'>";
                     echo "<img src='assets/jogos/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-48 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>";
                     echo "<div class='p-4 text-center'>";
                     echo "<p class='text-gray-300 text-sm'>Ofertão de Fim de Ano</p>"; 

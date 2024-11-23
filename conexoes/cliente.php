@@ -94,12 +94,29 @@ class Cliente
             @$sql->bindParam(1, $this->getSenha(), PDO::PARAM_STR);
             @$sql->bindParam(2, $this->getEmail(), PDO::PARAM_STR);
             $sql->execute();
-            return $sql->fetchAll();
-            $this->conn = null;
+            
+            $result = $sql->fetchAll();
+            
+            if (count($result) > 0) {
+                $cliente = $result[0];
+    
+                // Salva as informações de login na sessão
+                $_SESSION['CodCliente'] = $cliente['CodCliente'];
+                $_SESSION['Email'] = $cliente['Email'];    // Salvando o email
+                $_SESSION['Nickname'] = $cliente['Nickname'];  // Salvando o nickname
+                
+                $this->conn = null;
+                return true;  // Login bem-sucedido
+            } else {
+                $this->conn = null;
+                return false;  // Credenciais inválidas
+            }
         } catch (PDOException $exc) {
             echo "<span class='text-green-200'>Erro ao executar consulta.</span>" . $exc->getMessage();
+            return false;
         }
     }
+    
 
     public function autenticar()
     {
@@ -111,21 +128,6 @@ class Cliente
             $result = $sql->fetchAll(PDO::FETCH_ASSOC); // Retorna como array associativo
             $this->conn = null;
             return $result;
-        } catch (PDOException $exc) {
-            echo "<span class='text-green-200'>Erro ao executar consulta.</span>" . $exc->getMessage();
-        }
-    }
-
-    public function isAdmin()
-    {
-        try {
-            $this->conn = new Conexao();
-            $sql = $this->conn->prepare("SELECT COUNT(*) FROM adm WHERE email = ?");
-            @$sql->bindParam(1, $this->getEmail(), PDO::PARAM_STR);
-            $sql->execute();
-            $result = $sql->fetchColumn(); // Retorna o número de administradores com o e-mail
-            $this->conn = null;
-            return $result > 0; // Se encontrar um administrador com esse e-mail, retorna true
         } catch (PDOException $exc) {
             echo "<span class='text-green-200'>Erro ao executar consulta.</span>" . $exc->getMessage();
         }
@@ -162,5 +164,30 @@ class Cliente
         }
     }
 
-    
+    public function carregarUsuario()
+{
+    $conexao = Conexao::getConexao();
+    $sql = "SELECT * FROM cliente WHERE CodCliente = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $this->CodCliente);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    return $resultado->fetch_assoc();
+}
+
+public function atualizarUsuario()
+{
+    $conexao = Conexao::getConexao();
+    $sql = "UPDATE cliente SET Nome = ?, Nickname = ?, DataNasc = ?, CPF = ?, Email = ?" . 
+           (!empty($this->Senha) ? ", Senha = ?" : "") . 
+           " WHERE CodCliente = ?";
+    $stmt = $conexao->prepare($sql);
+    if (!empty($this->Senha)) {
+        $stmt->bind_param("ssssssi", $this->Nome, $this->Nickname, $this->DataNasc, $this->CPF, $this->Email, $this->Senha, $this->CodCliente);
+    } else {
+        $stmt->bind_param("sssssi", $this->Nome, $this->Nickname, $this->DataNasc, $this->CPF, $this->Email, $this->CodCliente);
+    }
+    $stmt->execute();
+}
+
 } 

@@ -52,7 +52,7 @@
             </div>
 
             <!-- Newsletter Form -->
-            <form id="newsletterForm" action="#" method="post" class="mt-4 flex items-center w-full max-w-sm">
+            <form id="newsletterForm" action="login.php" method="post" class="mt-4 flex items-center w-full max-w-sm">
                 <input type="email" id="emailField" name="email" placeholder="Assine nossa newsletter" class="bg-gray-800 text-white p-2 w-full rounded-l-md focus:outline-none focus:bg-gray-700 text-sm" required>
                 <button type="button" onclick="retainEmail()" class="bg-purple-800 p-2 rounded-r-md hover:bg-purple-600 transition-all duration-300 text-sm">Entre!</button>
             </form>
