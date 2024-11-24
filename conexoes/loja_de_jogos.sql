@@ -173,7 +173,7 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`CodCliente`, `Nome`, `Nickname`, `DataNasc`, `CPF`, `Senha`, `Email`) VALUES
-(1, 'Gustavo de Souza\r\n', 'Ioo', '2004-10-03', '553.885.121-00', 'ramonas', 'gustavo.adsa12@gmail.com'),
+(1, 'Gustavo de Souza\r\n', 'Iovatsug', '2004-10-03', '553.885.121-00', 'Ramonas12..', 'gustavo.adsa12@gmail.com'),
 (2, 'Pedro Eduardo', 'PedroLoLo23', '2004-10-21', '026.279.840-98', 'Hgsywe/27436', 'Pedrinhokawai@gmail.com'),
 (3, 'Matheus Jorge Santana', 'Math002', '2007-12-03', '619.706.610-62', 'hcuG12498.12', 'MatheusBonitinhoMB@gmail.com'),
 (4, 'Enzo Souto Cavalcante', 'EnzinhoLegal1', '2007-11-14', '010.547.580-77', 'BSYHWGff!4', 'EnzinhoDaMassa@outlook.com'),

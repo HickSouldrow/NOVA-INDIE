@@ -163,7 +163,20 @@ class Cliente
             echo "<span class='text-green-200'>Erro ao executar consulta.</span>" . $exc->getMessage();
         }
     }
-
+    public function isAdmin()
+    {
+        try {
+            $this->conn = new Conexao();
+            $sql = $this->conn->prepare("SELECT COUNT(*) FROM adm WHERE email = ?");
+            @$sql->bindParam(1, $this->getEmail(), PDO::PARAM_STR);
+            $sql->execute();
+            $result = $sql->fetchColumn(); // Retorna o número de administradores com o e-mail
+            $this->conn = null;
+            return $result > 0; // Se encontrar um administrador com esse e-mail, retorna true
+        } catch (PDOException $exc) {
+            echo "<span class='text-green-200'>Erro ao executar consulta.</span>" . $exc->getMessage();
+        }
+    }
     public function carregarUsuario()
 {
     $conexao = Conexao::getConexao();
