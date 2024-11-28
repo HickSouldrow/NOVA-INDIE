@@ -40,14 +40,14 @@
         <div class="flex flex-col items-center md:items-start space-y-6">
             <h3 class="text-lg font-semibold text-purple-400">Redes</h3>
             <div class="flex space-x-3">
-                <a href="https://www.facebook.com" class="bg-purple-800 p-2 rounded-full hover:bg-purple-600 transition-all duration-300">
-                    <img src="assets/img/facebook-icon.svg" alt="Facebook" class="w-5 h-5">
+                <a href="https://www.facebook.com" class="bg-purple-800 p-1 rounded-full hover:bg-purple-600 transition-all duration-300">
+                    <img src="assets/img/facebook-icon.svg" alt="Facebook" class="w-6 h-6">
                 </a>
-                <a href="https://www.instagram.com/novaindiegames/" class="bg-purple-800 p-2 rounded-full hover:bg-purple-600 transition-all duration-300">
-                    <img src="assets/img/instagram-icon.svg" alt="Instagram" class="w-5 h-5">
+                <a href="https://www.instagram.com/novaindiegames/" class="bg-purple-800 p-1 rounded-full hover:bg-purple-600 transition-all duration-300">
+                    <img src="assets/img/instagram-icon.svg" alt="Instagram" class="w-6 h-6">
                 </a>
-                <a href="https://www.x.com" class="bg-purple-800 p-2 rounded-full hover:bg-purple-600 transition-all duration-300">
-                    <img src="assets/img/twitter-icon.svg" alt="Twitter" class="w-5 h-5">
+                <a href="https://www.x.com" class="bg-purple-800 p-1 rounded-full hover:bg-purple-600 transition-all duration-300">
+                    <img src="assets/img/twitter-icon.svg" alt="Twitter" class="w-6 h-6">
                 </a>
             </div>
 

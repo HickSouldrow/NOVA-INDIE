@@ -194,7 +194,7 @@ $isLoggedIn = isset($_SESSION['usuario']);
             <a href="CRUD_template.php?tabela=reqminimos" class="block px-4 py-2 text-sm text-gray-400 hover:text-white rounded">Gerenciar Requisitos Mínimos</a>
             <a href="CRUD_template.php?tabela=MeioPagamento" class="block px-4 py-2 text-sm text-gray-400 hover:text-white rounded">Gerenciar Meios de Pagamento</a>
             <a href="CRUD_template.php?tabela=cliente" class="block px-4 py-2 text-sm text-gray-400 hover:text-white rounded">Gerenciar Clientes</a>
-            <a href="CRUD_template.php?tabela=notaiscal" class="block px-4 py-2 text-sm text-gray-400 hover:text-white rounded">Gerenciar Notas Fiscais</a>
+            <a href="CRUD_template.php?tabela=notafiscal" class="block px-4 py-2 text-sm text-gray-400 hover:text-white rounded">Gerenciar Notas Fiscais</a>
         </div>
     <?php endif; ?>
     
