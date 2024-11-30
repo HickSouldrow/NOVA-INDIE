@@ -415,7 +415,7 @@ function changeGames(direction) {
     } else if (currentImageIndex >= totalImages) {
         currentImageIndex = 0; 
     }
-carrinho
+
     const mainImage = document.getElementById('main-image');
     mainImage.classList.add('fade-out');
 
@@ -451,6 +451,7 @@ function changeMainImage(index) {
     }, 300); // Tempo da animação fade-out
 }
 
+</script>
 
 </body>
 
