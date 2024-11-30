@@ -26,6 +26,27 @@ if (is_dir($gameFolder)) {
         "$gameFolder/thumbnail4.png"
     ];
 } 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    session_start(); // Certifique-se de que a sessão está ativa para obter o CodCliente do header.
+    if (!isset($_SESSION['CodCliente'])) {
+        echo "<script>alert('Você precisa estar logado para adicionar ao carrinho!');</script>";
+    } else {
+        $codCliente = $_SESSION['CodCliente']; // Obtém o CodCliente da sessão.
+        $codJogo = $_POST['CodJogo']; // Obtém o CodJogo do formulário.
+
+        // Insere o jogo no carrinho
+        $sqlAddToCart = "INSERT INTO Carrinho (CodCliente, CodJogo) VALUES (?, ?)";
+        $stmtAddToCart = $conn->prepare($sqlAddToCart);
+        $stmtAddToCart->bind_param("ii", $codCliente, $codJogo);
+
+        if ($stmtAddToCart->execute()) {
+            echo "<script>alert('Jogo adicionado ao carrinho com sucesso!');</script>";
+        } else {
+            echo "<script>alert('Erro ao adicionar ao carrinho: " . $stmtAddToCart->error . "');</script>";
+        }
+    }
+}
 $sqlCategorias = "SELECT c.CategoriaTipo FROM categoriajogo cj JOIN categoria c ON cj.CodCategoria = c.CodCategoria WHERE cj.CodJogo = ?";
 $stmtCategorias = $conn->prepare($sqlCategorias);
 $stmtCategorias->bind_param("i", $codJogo);
@@ -249,8 +270,67 @@ if (!empty($desconto) && $desconto > 0) {
 
 
         <button class="w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2">Compre agora</button>
-        <button class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all mb-2">Adicionar ao carrinho</button>
-        <button class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all">Para a Lista de Desejos</button>
+<!-- Botão de Adicionar ao Carrinho -->
+<button id="add-to-cart" 
+        class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all mb-2">
+    Adicionar ao carrinho
+</button>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('add-to-cart').addEventListener('click', function () {
+        const codJogo = <?php echo $codJogo; ?>;
+
+        // Fazendo uma requisição AJAX para adicionar o jogo ao carrinho
+        fetch('adicionar_ao_carrinho.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ CodJogo: codJogo })
+        })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: 'Adicionado ao Carrinho!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#6B46C1',
+                background: '#1A202C',
+                color: '#F7FAFC',
+            });
+        } else {
+            Swal.fire({
+                title: 'Atenção!',
+                text: data.message,
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#6B46C1',
+                background: '#1A202C',
+                color: '#F7FAFC',
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao adicionar ao carrinho:', error);
+        Swal.fire({
+            title: 'Erro!',
+            text: 'Algo deu errado. Por favor, tente novamente.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#6B46C1',
+            background: '#1A202C',
+            color: '#F7FAFC',
+        });
+    });
+});
+
+
+</script>
+  <button class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all">Para a Lista de Desejos</button>
 
         <!-- Recompensas -->
         <p class="text-green-500 mt-6">Ganhe 5% de volta</p>
@@ -335,7 +415,7 @@ function changeGames(direction) {
     } else if (currentImageIndex >= totalImages) {
         currentImageIndex = 0; 
     }
-
+carrinho
     const mainImage = document.getElementById('main-image');
     mainImage.classList.add('fade-out');
 
@@ -371,7 +451,6 @@ function changeMainImage(index) {
     }, 300); // Tempo da animação fade-out
 }
 
-</script>
 
 </body>
 

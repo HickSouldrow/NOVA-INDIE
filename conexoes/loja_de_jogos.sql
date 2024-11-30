@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Nov-2024 às 01:26
+-- Tempo de geração: 30/11/2024 às 21:53
 -- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.2.12
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -22,11 +22,10 @@ SET time_zone = "+00:00";
 --
 create database `loja_de_jogos`;
 use `loja_de_jogos`;
-
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `adm`
+-- Estrutura para tabela `adm`
 --
 
 CREATE TABLE `adm` (
@@ -36,7 +35,7 @@ CREATE TABLE `adm` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `adm`
+-- Despejando dados para a tabela `adm`
 --
 
 INSERT INTO `adm` (`CodFuncionario`, `Senha`, `EmailFunc`) VALUES
@@ -46,7 +45,28 @@ INSERT INTO `adm` (`CodFuncionario`, `Senha`, `EmailFunc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categoria`
+-- Estrutura para tabela `carrinho`
+--
+
+CREATE TABLE `carrinho` (
+  `CodJogo` int(11) NOT NULL,
+  `CodCliente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `carrinho`
+--
+
+INSERT INTO `carrinho` (`CodJogo`, `CodCliente`) VALUES
+(1, 5),
+(5, 5),
+(14, 2),
+(7, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -55,7 +75,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `categoria`
+-- Despejando dados para a tabela `categoria`
 --
 
 INSERT INTO `categoria` (`CodCategoria`, `CategoriaTipo`) VALUES
@@ -70,7 +90,7 @@ INSERT INTO `categoria` (`CodCategoria`, `CategoriaTipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categoriajogo`
+-- Estrutura para tabela `categoriajogo`
 --
 
 CREATE TABLE `categoriajogo` (
@@ -79,7 +99,7 @@ CREATE TABLE `categoriajogo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `categoriajogo`
+-- Despejando dados para a tabela `categoriajogo`
 --
 
 INSERT INTO `categoriajogo` (`CodJogo`, `CodCategoria`) VALUES
@@ -132,7 +152,7 @@ INSERT INTO `categoriajogo` (`CodJogo`, `CodCategoria`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `classificacaoindicativa`
+-- Estrutura para tabela `classificacaoindicativa`
 --
 
 CREATE TABLE `classificacaoindicativa` (
@@ -141,7 +161,7 @@ CREATE TABLE `classificacaoindicativa` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `classificacaoindicativa`
+-- Despejando dados para a tabela `classificacaoindicativa`
 --
 
 INSERT INTO `classificacaoindicativa` (`CodFaixaEtaria`, `ClassificacaoIndicativa`) VALUES
@@ -155,7 +175,7 @@ INSERT INTO `classificacaoindicativa` (`CodFaixaEtaria`, `ClassificacaoIndicativ
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cliente`
+-- Estrutura para tabela `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -169,7 +189,7 @@ CREATE TABLE `cliente` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `cliente`
+-- Despejando dados para a tabela `cliente`
 --
 
 INSERT INTO `cliente` (`CodCliente`, `Nome`, `Nickname`, `DataNasc`, `CPF`, `Senha`, `Email`) VALUES
@@ -185,7 +205,7 @@ INSERT INTO `cliente` (`CodCliente`, `Nome`, `Nickname`, `DataNasc`, `CPF`, `Sen
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `desenvolvedora`
+-- Estrutura para tabela `desenvolvedora`
 --
 
 CREATE TABLE `desenvolvedora` (
@@ -197,7 +217,7 @@ CREATE TABLE `desenvolvedora` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `desenvolvedora`
+-- Despejando dados para a tabela `desenvolvedora`
 --
 
 INSERT INTO `desenvolvedora` (`CodDesenvolvedora`, `NomeDesenvolvedora`, `CNPJ`, `Email_Contato`, `SiteOficial`) VALUES
@@ -233,7 +253,7 @@ INSERT INTO `desenvolvedora` (`CodDesenvolvedora`, `NomeDesenvolvedora`, `CNPJ`,
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `genero`
+-- Estrutura para tabela `genero`
 --
 
 CREATE TABLE `genero` (
@@ -242,7 +262,7 @@ CREATE TABLE `genero` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `genero`
+-- Despejando dados para a tabela `genero`
 --
 
 INSERT INTO `genero` (`CodGenero`, `GeneroDescr`) VALUES
@@ -256,7 +276,7 @@ INSERT INTO `genero` (`CodGenero`, `GeneroDescr`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `generojogo`
+-- Estrutura para tabela `generojogo`
 --
 
 CREATE TABLE `generojogo` (
@@ -265,7 +285,7 @@ CREATE TABLE `generojogo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `generojogo`
+-- Despejando dados para a tabela `generojogo`
 --
 
 INSERT INTO `generojogo` (`CodJogo`, `CodGenero`) VALUES
@@ -326,7 +346,7 @@ INSERT INTO `generojogo` (`CodJogo`, `CodGenero`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `jogo`
+-- Estrutura para tabela `jogo`
 --
 
 CREATE TABLE `jogo` (
@@ -343,7 +363,7 @@ CREATE TABLE `jogo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `jogo`
+-- Despejando dados para a tabela `jogo`
 --
 
 INSERT INTO `jogo` (`CodJogo`, `Nome`, `DtLancamento`, `Avaliacao`, `CodFaixaEtaria`, `ReqMinId`, `Preco`, `Descricao`, `Sinopse`, `Desconto`) VALUES
@@ -381,7 +401,7 @@ INSERT INTO `jogo` (`CodJogo`, `Nome`, `DtLancamento`, `Avaliacao`, `CodFaixaEta
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `jogodesenvolvedora`
+-- Estrutura para tabela `jogodesenvolvedora`
 --
 
 CREATE TABLE `jogodesenvolvedora` (
@@ -390,7 +410,7 @@ CREATE TABLE `jogodesenvolvedora` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `jogodesenvolvedora`
+-- Despejando dados para a tabela `jogodesenvolvedora`
 --
 
 INSERT INTO `jogodesenvolvedora` (`CodDesenvolvedora`, `CodJogo`) VALUES
@@ -428,7 +448,7 @@ INSERT INTO `jogodesenvolvedora` (`CodDesenvolvedora`, `CodJogo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `meiopagamento`
+-- Estrutura para tabela `meiopagamento`
 --
 
 CREATE TABLE `meiopagamento` (
@@ -437,7 +457,7 @@ CREATE TABLE `meiopagamento` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `meiopagamento`
+-- Despejando dados para a tabela `meiopagamento`
 --
 
 INSERT INTO `meiopagamento` (`CodMeioPagamento`, `OpcoesPagamento`) VALUES
@@ -451,7 +471,7 @@ INSERT INTO `meiopagamento` (`CodMeioPagamento`, `OpcoesPagamento`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `notafiscal`
+-- Estrutura para tabela `notafiscal`
 --
 
 CREATE TABLE `notafiscal` (
@@ -462,7 +482,7 @@ CREATE TABLE `notafiscal` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `notafiscal`
+-- Despejando dados para a tabela `notafiscal`
 --
 
 INSERT INTO `notafiscal` (`CodNotaFiscal`, `CodCliente`, `MeioPagamento`, `DataCompra`) VALUES
@@ -476,7 +496,7 @@ INSERT INTO `notafiscal` (`CodNotaFiscal`, `CodCliente`, `MeioPagamento`, `DataC
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `notafiscaljogo`
+-- Estrutura para tabela `notafiscaljogo`
 --
 
 CREATE TABLE `notafiscaljogo` (
@@ -486,7 +506,7 @@ CREATE TABLE `notafiscaljogo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `notafiscaljogo`
+-- Despejando dados para a tabela `notafiscaljogo`
 --
 
 INSERT INTO `notafiscaljogo` (`CodNotaFiscal`, `CodJogo`, `QtdVend`) VALUES
@@ -501,7 +521,7 @@ INSERT INTO `notafiscaljogo` (`CodNotaFiscal`, `CodJogo`, `QtdVend`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `reqminimos`
+-- Estrutura para tabela `reqminimos`
 --
 
 CREATE TABLE `reqminimos` (
@@ -516,7 +536,7 @@ CREATE TABLE `reqminimos` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Extraindo dados da tabela `reqminimos`
+-- Despejando dados para a tabela `reqminimos`
 --
 
 INSERT INTO `reqminimos` (`ReqMinId`, `SOMin`, `GPUMin`, `CPUMin`, `DirectXMin`, `Armazenamento`, `RAMmin`, `OBS`) VALUES
@@ -531,25 +551,25 @@ INSERT INTO `reqminimos` (`ReqMinId`, `SOMin`, `GPUMin`, `CPUMin`, `DirectXMin`,
 --
 
 --
--- Índices para tabela `adm`
+-- Índices de tabela `adm`
 --
 ALTER TABLE `adm`
   ADD PRIMARY KEY (`CodFuncionario`);
 
 --
--- Índices para tabela `categoria`
+-- Índices de tabela `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`CodCategoria`);
 
 --
--- Índices para tabela `classificacaoindicativa`
+-- Índices de tabela `classificacaoindicativa`
 --
 ALTER TABLE `classificacaoindicativa`
   ADD PRIMARY KEY (`CodFaixaEtaria`);
 
 --
--- Índices para tabela `cliente`
+-- Índices de tabela `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`CodCliente`),
@@ -562,7 +582,7 @@ ALTER TABLE `cliente`
   ADD UNIQUE KEY `Email` (`CodCliente`,`Email`,`Nickname`) USING BTREE;
 
 --
--- Índices para tabela `desenvolvedora`
+-- Índices de tabela `desenvolvedora`
 --
 ALTER TABLE `desenvolvedora`
   ADD PRIMARY KEY (`CodDesenvolvedora`),
@@ -571,37 +591,37 @@ ALTER TABLE `desenvolvedora`
   ADD UNIQUE KEY `SiteOficial` (`SiteOficial`) USING HASH;
 
 --
--- Índices para tabela `genero`
+-- Índices de tabela `genero`
 --
 ALTER TABLE `genero`
   ADD PRIMARY KEY (`CodGenero`);
 
 --
--- Índices para tabela `jogo`
+-- Índices de tabela `jogo`
 --
 ALTER TABLE `jogo`
   ADD PRIMARY KEY (`CodJogo`);
 
 --
--- Índices para tabela `meiopagamento`
+-- Índices de tabela `meiopagamento`
 --
 ALTER TABLE `meiopagamento`
   ADD PRIMARY KEY (`CodMeioPagamento`);
 
 --
--- Índices para tabela `notafiscal`
+-- Índices de tabela `notafiscal`
 --
 ALTER TABLE `notafiscal`
   ADD PRIMARY KEY (`CodNotaFiscal`);
 
 --
--- Índices para tabela `reqminimos`
+-- Índices de tabela `reqminimos`
 --
 ALTER TABLE `reqminimos`
   ADD PRIMARY KEY (`ReqMinId`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
