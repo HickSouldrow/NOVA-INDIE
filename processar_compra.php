@@ -32,6 +32,7 @@ try {
     $stmtNotaFiscalJogo->bind_param("ii", $codNotaFiscal, $codJogo);
     $stmtNotaFiscalJogo->execute();
 
+
     // Commit da transação
     $conn->commit();
 

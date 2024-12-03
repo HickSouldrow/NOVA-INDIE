@@ -185,7 +185,8 @@ $result = $stmt->get_result();
     </div>
 </div>
 
-<script>// Função para abrir o popup de pagamento
+<script>
+// Função para abrir o popup de pagamento
 function abrirPopupPagamento() {
     // Aqui você pode adicionar uma validação, como verificar se o usuário está logado.
     document.getElementById("popupPagamento").classList.remove("hidden");
@@ -216,37 +217,39 @@ function carregarOpcoesPagamento() {
     .catch(error => console.error('Erro ao carregar opções de pagamento:', error));
 }
 
+// Função para pegar o CodJogo da URL
+function obterCodJogoDaURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('CodJogo'); // Captura o CodJogo da URL
+}
+
 // Enviar a escolha de pagamento para o servidor
 document.getElementById("formPagamento").addEventListener("submit", function(event) {
     event.preventDefault();
 
     const meioPagamento = document.getElementById("meioPagamento").value;
 
-    // Pegar o ID do jogo dinamicamente da URL
-    const params = new URLSearchParams(window.location.search);
-    const jogoSelecionadoId = params.get('codJogo');  
-
-   // Realizar o envio para o backend
-    fetch('processar_compra.php', {
+    fetch('processar_compra2.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            meioPagamento: meioPagamento,
-            codJogo: jogoSelecionadoId  // Passar o ID do jogo corretamente
+            meioPagamento: meioPagamento
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.href = "jogo_comprado_template.php"; // Redireciona para a página de confirmação de compra
+            window.location.href = "MeusJogos.php"; // Redireciona para a página de confirmação de compra
         } else {
-   
+            alert('Erro ao processar pagamento: ' + data.message);
         }
     })
-    .catch(error => console.error('Erro:', error));
+    .catch(error => console.error('Erro ao processar pagamento:', error));
 });
+
+
 
 </script>
 
