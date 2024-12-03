@@ -287,10 +287,27 @@ if (!empty($desconto) && $desconto > 0) {
     echo "<h3 class='text-4xl font-bold text-white mb-4'>R$ " . number_format($precoOriginal, 2, ',', '.') . "</h3>"; // Preço normal
 }
 ?>
-<div class="mt-2"> <!-- Seção para o desconto -->
-    <!-- O conteúdo para o desconto já foi movido acima -->
+<div class="mt-2">
 </div>
-<button onclick="abrirPopupPagamento()" class="w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2">Compre agora</button>
+<?php
+if (!isset($_SESSION['CodCliente'])) {
+    echo "
+    <button 
+        onclick=\"window.location.href='login.php'\" 
+        class=\"w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2\">
+        Compre agora
+    </button>
+    ";
+} else {
+    echo "
+    <button 
+        onclick=\"abrirPopupPagamento()\" 
+        class=\"w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2\">
+        Compre agora
+    </button>
+    ";
+}
+?>
 
 <!-- Popup de Opções de Pagamento -->
 <div id="popupPagamento" class="fixed inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center hidden">
@@ -310,7 +327,6 @@ if (!empty($desconto) && $desconto > 0) {
         </form>
     </div>
 </div>
-
 
 
 <!-- Botão de Adicionar ao Carrinho -->

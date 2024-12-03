@@ -31,8 +31,7 @@ session_start();
 
 // Obter o ID do cliente logado
 if (!isset($_SESSION['CodCliente'])) {
-    echo "<p class='text-center text-red-500 mt-16'>Por favor, faça login para acessar seu carrinho.</p>";
-
+    echo "<script>window.location.href = 'login.php';</script>";
     exit;
 }
 

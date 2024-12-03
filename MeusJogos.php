@@ -30,7 +30,7 @@ session_start();
 
 // Verificar se o cliente está logado
 if (!isset($_SESSION['CodCliente'])) {
-    echo "<p class='text-center text-red-500 mt-16'>Por favor, faça login para acessar seus jogos comprados.</p>";
+    echo "<script>window.location.href = 'login.php';</script>";
     exit;
 }
 
@@ -92,32 +92,47 @@ $result = $stmt->get_result();
     </script>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                if (!empty($desconto) && $desconto > 0) {
-                    $precoFinal -= ($precoFinal * ($desconto / 100));
-                }
+    <?php
+// Array para rastrear os códigos já exibidos
+$jogosExibidos = [];
 
-                // Card do jogo
-                echo "<div class='bg-gray-900 max-w-sm rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl relative'>";
-                echo "<a href='jogo_comprado_template.php?CodJogo=" . $row['CodJogo'] . "'>";
-                echo "<img src='assets/jogos/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-60 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>";
-                echo "</a>";
-                echo "<div class='p-4'>";
-                echo "<p class='text-gray-300 text-sm'>Comprado em: " . date("d/m/Y", strtotime($row['DataCompra'])) . "</p>";
-                echo "<span class='text-lg font-bold'>" . htmlspecialchars($row['nome']) . "</span>";
-                echo "<div class='mt-2'>";
-                
-                echo "</div>";
-                echo "</div>";
-                // Não é necessário botão para remover, pois é uma compra finalizada
-                echo "</div>";
-            }
-        } else {
-            echo "<p class='text-white'>Você não comprou nenhum jogo ainda.</p>";
+// Verificar se há resultados
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Verificar se o jogo já foi exibido
+        if (in_array($row['CodJogo'], $jogosExibidos)) {
+            continue; // Pular para o próximo jogo se já foi exibido
         }
-        ?>
+
+        // Adicionar o jogo ao array de rastreamento
+        $jogosExibidos[] = $row['CodJogo'];
+
+        // Lógica de cálculo de desconto (opcional)
+        $precoFinal = $row['Preco'];
+        $desconto = $row['desconto'];
+        if (!empty($desconto) && $desconto > 0) {
+            $precoFinal -= ($precoFinal * ($desconto / 100));
+        }
+
+        // Card do jogo
+        echo "<div class='bg-gray-900 max-w-sm rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl relative'>";
+        echo "<a href='jogo_comprado_template.php?CodJogo=" . $row['CodJogo'] . "'>";
+        echo "<img src='assets/jogos/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-60 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>";
+        echo "</a>";
+        echo "<div class='p-4'>";
+        echo "<p class='text-gray-300 text-sm'>Comprado em: " . date("d/m/Y", strtotime($row['DataCompra'])) . "</p>";
+        echo "<span class='text-lg font-bold'>" . htmlspecialchars($row['nome']) . "</span>";
+        echo "<div class='mt-2'>";
+        echo "<span class='text-green-500 font-bold'>R$ " . number_format($precoFinal, 2, ',', '.') . "</span>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    }
+} else {
+    echo "<p class='text-white'>Você não comprou nenhum jogo ainda.</p>";
+}
+?>
+
     </div>
     <section class="mt-36 mb-16">
                 <?php include 'includes/random.php'; ?>
