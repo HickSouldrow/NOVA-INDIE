@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnLogin'])) {
         $erro = true;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +131,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnLogin'])) {
             </div>
         </div>
     </div>
-
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedEmail = localStorage.getItem('newsletterEmail');
+        if (savedEmail) {
+            const emailField = document.getElementById('email');
+            if (emailField) {
+                emailField.value = savedEmail;
+            }
+            localStorage.removeItem('newsletterEmail'); // Remove o e-mail após utilizá-lo
+        }
+    });
+</script>
     <footer class="text-white w-full mt-auto">
         <?php include 'includes/footer.php'; ?>
     </footer>

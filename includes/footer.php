@@ -51,29 +51,35 @@
                 </a>
             </div>
 
-            <!-- Newsletter Form -->
-            <form id="newsletterForm" action="login.php" method="post" class="mt-4 flex items-center w-full max-w-sm">
-                <input type="email" id="emailField" name="email" placeholder="Assine nossa newsletter" class="bg-gray-800 text-white p-2 w-full rounded-l-md focus:outline-none focus:bg-gray-700 text-sm" required>
-                <button type="button" onclick="retainEmail()" class="bg-purple-800 p-2 rounded-r-md hover:bg-purple-600 transition-all duration-300 text-sm">Entre!</button>
-            </form>
+            <?php
+// Verifique se o usuário está logado
+$loggedIn = isset($_SESSION['CodCliente']);
+?>
+
+<form id="newsletterForm" action="login.php" method="post" class="mt-4 flex items-center w-full max-w-sm">
+    <input type="email" id="emailField" name="email" placeholder="Assine nossa newsletter" class="bg-gray-800 text-white p-2 w-full rounded-l-md focus:outline-none focus:bg-gray-700 text-sm" required 
+           <?php echo $loggedIn ? 'disabled' : ''; ?>>
+    <button type="button" onclick="retainEmail()" class="bg-purple-800 p-2 rounded-r-md hover:bg-purple-600 transition-all duration-300 text-sm" 
+            <?php echo $loggedIn ? 'disabled' : ''; ?>>Entre!</button>
+</form>
+
+<script>
+    function retainEmail() {
+        // Só permite funcionar se o usuário não estiver logado
+        if (!<?php echo $loggedIn ? 'true' : 'false'; ?>) {
+            const email = document.getElementById('emailField').value;
+            if (email) {
+                localStorage.setItem('newsletterEmail', email);
+                window.location.href = 'login.php'; // Redireciona para a página de login
+            } else {
+                alert('Por favor, preencha o campo de e-mail!');
+            }
+        }
+    }
+</script>
+
+
         </div>
     </div>
 </footer>
 
-<script>
-    function retainEmail() {
-        const emailField = document.getElementById('emailField');
-        const emailValue = emailField.value;
-
-        localStorage.setItem('savedEmail', emailValue);
-
-        document.getElementById('newsletterForm').submit();
-    }
-
-    window.onload = function() {
-        const savedEmail = localStorage.getItem('savedEmail');
-        if (savedEmail) {
-            document.getElementById('emailField').value = savedEmail;
-        }
-    }
-</script>
