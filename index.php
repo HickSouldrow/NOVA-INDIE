@@ -11,6 +11,7 @@
     <script src="js/sidebar.js" defer></script>
     <script src="js/dropdown.js" defer></script>
     <script src="js/games.js" defer></script> 
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon-32x32.png">
     <style>
         body {
     margin: 0; 

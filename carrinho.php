@@ -6,6 +6,7 @@
     <title>Meu Carrinho - NOVA INDIE</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css"> 
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon-32x32.png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Incluindo SweetAlert -->
     <style>
         body {
