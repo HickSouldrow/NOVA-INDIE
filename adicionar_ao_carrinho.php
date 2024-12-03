@@ -3,21 +3,26 @@ include 'conexoes/config.php';
 
 header('Content-Type: application/json');
 
+// Função para enviar uma resposta padronizada
+function enviarResposta($success, $message, $extra = []) {
+    echo json_encode(array_merge(['success' => $success, 'message' => $message], $extra));
+    exit;
+}
+
 // Obtendo os dados da requisição
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['CodJogo'])) {
     $codJogo = $data['CodJogo'];
 
-    // Obtendo CodCliente do cabeçalho (exemplo: baseado na sessão do usuário)
+    // Verificando sessão do cliente
     session_start();
     if (!isset($_SESSION['CodCliente'])) {
-        echo json_encode(['success' => false, 'message' => 'Usuário não logado.']);
-        exit;
+        enviarResposta(false, 'Você precisa estar logado para adicionar ao carrinho.');
     }
     $codCliente = $_SESSION['CodCliente'];
 
-    // Verificar se o jogo já está no carrinho para o cliente
+    // Verificar se o jogo já está no carrinho
     $sqlCheck = "SELECT COUNT(*) as total FROM Carrinho WHERE CodJogo = ? AND CodCliente = ?";
     $stmtCheck = $conn->prepare($sqlCheck);
     $stmtCheck->bind_param("ii", $codJogo, $codCliente);
@@ -27,7 +32,7 @@ if (isset($data['CodJogo'])) {
 
     if ($rowCheck['total'] > 0) {
         // Jogo já está no carrinho
-        echo json_encode(['success' => false, 'message' => 'Este jogo já está no seu carrinho.']);
+        enviarResposta(false, 'Este jogo já está no seu carrinho.');
     } else {
         // Inserir o jogo no carrinho
         $sqlInsert = "INSERT INTO Carrinho (CodJogo, CodCliente) VALUES (?, ?)";
@@ -35,9 +40,11 @@ if (isset($data['CodJogo'])) {
         $stmtInsert->bind_param("ii", $codJogo, $codCliente);
 
         if ($stmtInsert->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Jogo adicionado ao carrinho com sucesso.']);
+            enviarResposta(true, 'Jogo adicionado ao carrinho com sucesso.');
         } else {
-            echo json_encode(['success' => false, 'message' => 'Erro ao adicionar o jogo ao carrinho.']);
+            // Logue o erro no servidor para depuração (não exibir diretamente ao usuário)
+            error_log('Erro ao inserir no carrinho: ' . $stmtInsert->error);
+            enviarResposta(false, 'Houve um problema ao adicionar o jogo ao carrinho.');
         }
 
         $stmtInsert->close();
@@ -46,5 +53,5 @@ if (isset($data['CodJogo'])) {
     $stmtCheck->close();
     $conn->close();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Dados inválidos.']);
+    enviarResposta(false, 'Dados inválidos enviados.');
 }

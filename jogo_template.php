@@ -47,6 +47,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         }
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_wishs'])) {
+    session_start(); // Certifique-se de que a sessão está ativa para obter o CodCliente do header.
+    if (!isset($_SESSION['CodCliente'])) {
+        echo "<script>alert('Você precisa estar logado para adicionar à lista de desejos!');</script>";
+    } else {
+        $codCliente = $_SESSION['CodCliente']; // Obtém o CodCliente da sessão.
+        $codJogo = $_POST['CodJogo']; // Obtém o CodJogo do formulário.
+
+        // Insere o jogo no carrinho
+        $sqlAddToWishs = "INSERT INTO Desejos (CodCliente, CodJogo) VALUES (?, ?)";
+        $stmtAddToWishs = $conn->prepare($sqlAddToWishs);
+        $stmtAddToWishs->bind_param("ii", $codCliente, $codJogo);
+
+        if ($stmtAddToWishs->execute()) {
+            echo "<script>alert('Jogo adicionado à lista de desejos com sucesso!');</script>";
+        } else {
+            echo "<script>alert('Erro ao adicionar à lista de desejos: " . $stmtAddToWishs->error . "');</script>";
+        }
+    }
+}
+
 $sqlCategorias = "SELECT c.CategoriaTipo FROM categoriajogo cj JOIN categoria c ON cj.CodCategoria = c.CodCategoria WHERE cj.CodJogo = ?";
 $stmtCategorias = $conn->prepare($sqlCategorias);
 $stmtCategorias->bind_param("i", $codJogo);
@@ -267,9 +289,94 @@ if (!empty($desconto) && $desconto > 0) {
 <div class="mt-2"> <!-- Seção para o desconto -->
     <!-- O conteúdo para o desconto já foi movido acima -->
 </div>
+<button onclick="abrirPopupPagamento()" class="w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2">Compre agora</button>
+
+<!-- Popup de Opções de Pagamento -->
+<div id="popupPagamento" class="fixed inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center hidden">
+    <div class="bg-gray-900 text-white p-6 rounded-lg w-96 shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Escolha a forma de pagamento</h2>
+        <form id="formPagamento">
+            <div class="mb-6">
+                <label for="meioPagamento" class="block mb-2 text-lg">Opção de pagamento</label>
+                <select id="meioPagamento" class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-white">
+                    <!-- Opções de pagamento serão carregadas aqui -->
+                </select>
+            </div>
+            <div class="flex justify-between">
+                <button type="button" onclick="fecharPopup()" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded transition-all">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white rounded transition-all">Finalizar Compra</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>// Função para abrir o popup de pagamento
+function abrirPopupPagamento() {
+    // Aqui você pode adicionar uma validação, como verificar se o usuário está logado.
+    document.getElementById("popupPagamento").classList.remove("hidden");
+    
+    // Carregar as opções de pagamento
+    carregarOpcoesPagamento();
+}
+
+// Função para fechar o popup
+function fecharPopup() {
+    document.getElementById("popupPagamento").classList.add("hidden");
+}
+
+// Função para carregar as opções de pagamento
+function carregarOpcoesPagamento() {
+    fetch('obter_opcoes_pagamento.php')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById("meioPagamento");
+        select.innerHTML = ''; // Limpa as opções anteriores
+        data.opcoes.forEach(opcao => {
+            const option = document.createElement("option");
+            option.value = opcao.CodMeioPagamento;
+            option.textContent = opcao.OpcoesPagamento;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Erro ao carregar opções de pagamento:', error));
+}
+
+// Enviar a escolha de pagamento para o servidor
+document.getElementById("formPagamento").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const meioPagamento = document.getElementById("meioPagamento").value;
+
+    // Pegar o ID do jogo dinamicamente da URL
+    const params = new URLSearchParams(window.location.search);
+    const jogoSelecionadoId = params.get('codJogo');  // Exemplo de URL: jogo_comprado_template.php?codJogo=123
+
+   // Realizar o envio para o backend
+    fetch('processar_compra.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            meioPagamento: meioPagamento,
+            codJogo: jogoSelecionadoId  // Passar o ID do jogo corretamente
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "jogo_comprado_template.php"; // Redireciona para a página de confirmação de compra
+        } else {
+   
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+});
+
+</script>
 
 
-        <button class="w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2">Compre agora</button>
+
 <!-- Botão de Adicionar ao Carrinho -->
 <button id="add-to-cart" 
         class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all mb-2">
@@ -327,11 +434,136 @@ if (!empty($desconto) && $desconto > 0) {
         });
     });
 });
+</script>
 
+<button id="add-to-wishs" 
+        class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all mb-2">
+    para a lista de desejos
+</button>
+<script>
+    document.getElementById('add-to-wishs').addEventListener('click', function () {
+        const codJogo = <?php echo $codJogo; ?>;
+
+        // Fazendo uma requisição AJAX para adicionar o jogo ao carrinho
+        fetch('adicionar_aos_desejos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ CodJogo: codJogo })
+        })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: 'Adicionado à lista de desejos!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#6B46C1',
+                background: '#1A202C',
+                color: '#F7FAFC',
+            });
+        } else {
+            Swal.fire({
+                title: 'Atenção!',
+                text: data.message,
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#6B46C1',
+                background: '#1A202C',
+                color: '#F7FAFC',
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao adicionar à lista de desejos:', error);
+        Swal.fire({
+            title: 'Erro!',
+            text: 'Algo deu errado. Por favor, tente novamente.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#6B46C1',
+            background: '#1A202C',
+            color: '#F7FAFC',
+        });
+    });
+});
+</script>
+<script>
+// Função para abrir o popup de pagamento
+function abrirPopupPagamento() {
+    // Aqui você pode adicionar uma validação, como verificar se o usuário está logado.
+    document.getElementById("popupPagamento").classList.remove("hidden");
+    
+    // Carregar as opções de pagamento
+    carregarOpcoesPagamento();
+}
+
+// Função para fechar o popup
+function fecharPopup() {
+    document.getElementById("popupPagamento").classList.add("hidden");
+}
+
+// Função para carregar as opções de pagamento
+function carregarOpcoesPagamento() {
+    fetch('obter_opcoes_pagamento.php')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById("meioPagamento");
+        select.innerHTML = ''; // Limpa as opções anteriores
+        data.opcoes.forEach(opcao => {
+            const option = document.createElement("option");
+            option.value = opcao.CodMeioPagamento;
+            option.textContent = opcao.OpcoesPagamento;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Erro ao carregar opções de pagamento:', error));
+}
+
+// Função para pegar o CodJogo da URL
+function obterCodJogoDaURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('CodJogo'); // Captura o CodJogo da URL
+}
+
+// Enviar a escolha de pagamento para o servidor
+document.getElementById("formPagamento").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const meioPagamento = document.getElementById("meioPagamento").value;
+
+    // Captura o CodJogo da URL
+    const codJogo = obterCodJogoDaURL();
+
+    if (!codJogo) {
+        alert("Erro: CodJogo não encontrado.");
+        return;
+    }
+
+    fetch('processar_compra.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            meioPagamento: meioPagamento,
+            codJogo: codJogo  // Passa o CodJogo da URL
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "jogo_comprado_template.php?CodJogo=" + codJogo; // Redireciona para a página de confirmação de compra
+        } else {
+            alert('Erro ao processar pagamento: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+});
 
 </script>
-  <button class="w-full bg-gray-800 py-2 rounded-full text-white font-bold hover:bg-gray-700 transition-all">Para a Lista de Desejos</button>
-
         <!-- Recompensas -->
         <p class="text-green-500 mt-6">Ganhe 5% de volta</p>
     </div>
@@ -456,6 +688,3 @@ function changeMainImage(index) {
 </body>
 
 </html>
-
-
-

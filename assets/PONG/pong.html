@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #2d3748;
+    }
+    canvas {
+      background-color: #1a202c;
+      display: block;
+      margin: 0 auto;
+    }
+    #game-container {
+      transition: all 0.5s ease;
+    }
+    #start-screen {
+      transition: all 0.5s ease;
+    }
+    #game-screen {
+      transition: all 0.5s ease;
+    }
+    #score {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-shadow: 0 2px 10px rgba(0, 255, 0, 0.8);
+    }
+    .paddle {
+      transition: all 0.1s ease;
+    }
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+    #popup-content {
+      background: white;
+      padding: 30px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-red-600">
+
+  <!-- Game Container -->
+  <div id="game-container" class="flex flex-col items-center justify-center h-full w-full">
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="flex flex-col items-center justify-center text-white p-8 rounded-lg shadow-lg bg-opacity-80 bg-black max-w-lg w-full">
+      <h1 class="text-5xl font-extrabold mb-6 text-green-400">Pong Game</h1>
+      <p class="text-lg mb-4 text-gray-300">Enter your names and set the winning score!</p>
+      
+      <div class="mb-4 w-full">
+        <label for="player1-name" class="block mb-2 font-semibold text-lg">Player 1 Name:</label>
+        <input id="player1-name" type="text" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400" placeholder="Player 1" />
+      </div>
+
+      <div class="mb-4 w-full">
+        <label for="player2-name" class="block mb-2 font-semibold text-lg">Player 2 Name:</label>
+        <input id="player2-name" type="text" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400" placeholder="Player 2" />
+      </div>
+
+      <!-- Campo para definir pontos para vencer -->
+      <div class="mb-6 w-full">
+        <label for="win-score" class="block mb-2 font-semibold text-lg">Points to Win:</label>
+        <input id="win-score" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400" placeholder="Enter number of points" min="1" value="5" />
+      </div>
+
+      <button onclick="startGame()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full transition ease-in-out transform hover:scale-105 focus:outline-none">Start Game</button>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="hidden flex flex-col items-center justify-center w-full">
+      <canvas id="pong" width="800" height="400" class="border-2 border-white rounded-lg shadow-2xl mb-4"></canvas>
+      
+      <div id="scoreboard" class="flex justify-between w-full px-4 text-white text-2xl font-semibold mb-4">
+        <div id="score" class="text-green-400 text-xl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup para parabenizar o vencedor -->
+  <div id="popup" class="flex items-center justify-center">
+    <div id="popup-content" class="bg-black text-white p-6 rounded-lg">
+      <h2 class="text-3xl text-green-600 font-bold mb-4">Congratulations!</h2>
+      <p id="winner-text" class="text-xl text-green-600 mb-6"></p>
+      <button onclick="resetGameFromPopup()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full transition ease-in-out transform hover:scale-105 focus:outline-none">Play Again</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

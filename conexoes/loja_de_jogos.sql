@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/11/2024 às 21:53
+-- Tempo de geração: 02/12/2024 às 23:46
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -60,8 +60,19 @@ CREATE TABLE `carrinho` (
 INSERT INTO `carrinho` (`CodJogo`, `CodCliente`) VALUES
 (1, 5),
 (5, 5),
-(14, 2),
-(7, 2);
+(7, 2),
+(5, 2),
+(19, 2),
+(1, 2),
+(11, 2),
+(4, 2),
+(23, 2),
+(24, 2),
+(27, 2),
+(9, 2),
+(15, 2),
+(2, 2),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -201,6 +212,33 @@ INSERT INTO `cliente` (`CodCliente`, `Nome`, `Nickname`, `DataNasc`, `CPF`, `Sen
 (6, 'Raul Souza Sá', 'NinjaLobo00', '2005-01-25', '331.569.000-60', 'aJBN21632376..', 'NINJALOBO0000@gmail.com'),
 (7, 'Martha de Souza', 'Mattyyy06', '2011-10-10', '713.154.070-60', 'sjdgfg!!HAHAHA', 'zeromeiaseubisonho@etec.sp.gov.br'),
 (8, 'Luan Gosling de Vasconcelo', 'LuanzinhoManeiro171', '2006-05-17', '911.739.650-68', 'shgAsy##3311', 'LuanZinhoManeiringo@hotmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `desejos`
+--
+
+CREATE TABLE `desejos` (
+  `CodJogo` int(11) NOT NULL,
+  `CodCliente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `desejos`
+--
+
+INSERT INTO `desejos` (`CodJogo`, `CodCliente`) VALUES
+(4, 2),
+(5, 2),
+(23, 2),
+(11, 2),
+(24, 2),
+(3, 4),
+(9, 2),
+(1, 2),
+(2, 2),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -488,11 +526,7 @@ CREATE TABLE `notafiscal` (
 INSERT INTO `notafiscal` (`CodNotaFiscal`, `CodCliente`, `MeioPagamento`, `DataCompra`) VALUES
 (1, 1, 1, '2024-10-02 11:22:27'),
 (2, 2, 2, '2024-10-10 15:52:27'),
-(3, 3, 3, '2024-09-07 01:42:37'),
-(4, 4, 4, '2024-08-19 14:13:37'),
-(5, 5, 5, '2024-10-23 19:58:01'),
-(6, 6, 6, '2024-10-24 08:02:01');
-
+(3, 3, 3, '2024-09-07 01:42:37');
 -- --------------------------------------------------------
 
 --
@@ -510,11 +544,6 @@ CREATE TABLE `notafiscaljogo` (
 --
 
 INSERT INTO `notafiscaljogo` (`CodNotaFiscal`, `CodJogo`, `QtdVend`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 6, 4),
-(4, 3, 1),
-(5, 5, 1),
 (5, 1, 1),
 (6, 2, 2);
 
@@ -628,7 +657,7 @@ ALTER TABLE `reqminimos`
 -- AUTO_INCREMENT de tabela `adm`
 --
 ALTER TABLE `adm`
-  MODIFY `CodFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `CodFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `categoria`
@@ -676,7 +705,7 @@ ALTER TABLE `meiopagamento`
 -- AUTO_INCREMENT de tabela `notafiscal`
 --
 ALTER TABLE `notafiscal`
-  MODIFY `CodNotaFiscal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `CodNotaFiscal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de tabela `reqminimos`

@@ -7,6 +7,18 @@
     <title>Ofertas - NOVA INDIE</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css"> 
+    <style>
+        body {
+            margin: 0; 
+            padding: 0; 
+            background-image: url('assets/img/background.png'); 
+            background-repeat: no-repeat; 
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-position: center; 
+            font-family: Arial; 
+        }
+    </style>
 </head>
 <body class="bg-gray-800 text-white" style="background-color: #101014;">
 <?php

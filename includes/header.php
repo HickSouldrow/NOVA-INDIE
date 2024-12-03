@@ -81,10 +81,15 @@ $isLoggedIn = isset($_SESSION['usuario']);
 
         <!-- Seção: Carrinho -->
         <nav class="p-4 border-b border-purple-500">
+        <h3 class="text-sm font-semibold uppercase text-gray-300 mb-2">Perfil</h3>
+
             <ul>
                 <li>
                     <a href="carrinho.php" class="block py-2 px-3 rounded-md hover:bg-purple-700 transition">
                         Ver Carrinho
+                    </a>
+                    <a href="desejos.php" class="block py-2 px-3 rounded-md hover:bg-purple-700 transition">
+                       Lista de Desejos
                     </a>
                 </li>
             </ul>
@@ -112,7 +117,7 @@ $isLoggedIn = isset($_SESSION['usuario']);
             <h3 class="text-sm font-semibold uppercase text-gray-300 mb-2">Jogos</h3>
             <ul class="space-y-2">
                 <li>
-                    <a href="meusJogos.php" class="block py-2 px-3 rounded-md hover:bg-purple-700 transition">
+                    <a href="MeusJogos.php" class="block py-2 px-3 rounded-md hover:bg-purple-700 transition">
                         Meus Jogos
                     </a>
                 </li>

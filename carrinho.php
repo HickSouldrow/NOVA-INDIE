@@ -30,6 +30,7 @@ session_start();
 // Obter o ID do cliente logado
 if (!isset($_SESSION['CodCliente'])) {
     echo "<p class='text-center text-red-500 mt-16'>Por favor, faça login para acessar seu carrinho.</p>";
+
     exit;
 }
 
@@ -122,6 +123,7 @@ $result = $stmt->get_result();
                 echo "<img src='assets/jogos/{$row['nome']}/thumbnail0.png' alt='" . htmlspecialchars($row['nome']) . "' class='w-full h-60 object-cover' onerror='this.onerror=null; this.src=\"assets/thumbnail0.png\";'>";
                 echo "</a>";
                 echo "<div class='p-4'>";
+                echo "<p class='text-gray-300 text-sm'>Jogo Base</p>"; 
                 echo "<span class='text-lg font-bold'>" . htmlspecialchars($row['nome']) . "</span>";
                 echo "<div class='mt-2'>";
                 if (!empty($desconto) && $desconto > 0) {
@@ -158,9 +160,96 @@ $result = $stmt->get_result();
     $resultTotal = $stmtTotal->get_result();
     $total = $resultTotal->fetch_assoc()['Total'] ?? 0;
     ?>
-    <div class="text-center mt-8">
-        <p class="text-xl font-bold text-gray-300">Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></p>
-        <a href="finalizar_compra.php" class="mt-4 inline-block bg-purple-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-600">Finalizar Compra</a>
+
+<div class="text-center mt-8">
+    <p class="text-xl font-bold text-gray-300">Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></p>
+    <button onclick="abrirPopupPagamento()" class="w-full bg-purple-700 py-2 rounded-full text-white font-bold hover:bg-purple-800 transition-all mb-2">Compre agora</button>
+
+<!-- Popup de Opções de Pagamento -->
+<div id="popupPagamento" class="fixed inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center hidden">
+    <div class="bg-gray-900 text-white p-6 rounded-lg w-96 shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Escolha a forma de pagamento</h2>
+        <form id="formPagamento">
+            <div class="mb-6">
+                <label for="meioPagamento" class="block mb-2 text-lg">Opção de pagamento</label>
+                <select id="meioPagamento" class="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-white">
+                    <!-- Opções de pagamento serão carregadas aqui -->
+                </select>
+            </div>
+            <div class="flex justify-between">
+                <button type="button" onclick="fecharPopup()" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded transition-all">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white rounded transition-all">Finalizar Compra</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>// Função para abrir o popup de pagamento
+function abrirPopupPagamento() {
+    // Aqui você pode adicionar uma validação, como verificar se o usuário está logado.
+    document.getElementById("popupPagamento").classList.remove("hidden");
+    
+    // Carregar as opções de pagamento
+    carregarOpcoesPagamento();
+}
+
+// Função para fechar o popup
+function fecharPopup() {
+    document.getElementById("popupPagamento").classList.add("hidden");
+}
+
+// Função para carregar as opções de pagamento
+function carregarOpcoesPagamento() {
+    fetch('obter_opcoes_pagamento.php')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById("meioPagamento");
+        select.innerHTML = ''; // Limpa as opções anteriores
+        data.opcoes.forEach(opcao => {
+            const option = document.createElement("option");
+            option.value = opcao.CodMeioPagamento;
+            option.textContent = opcao.OpcoesPagamento;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Erro ao carregar opções de pagamento:', error));
+}
+
+// Enviar a escolha de pagamento para o servidor
+document.getElementById("formPagamento").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const meioPagamento = document.getElementById("meioPagamento").value;
+
+    // Pegar o ID do jogo dinamicamente da URL
+    const params = new URLSearchParams(window.location.search);
+    const jogoSelecionadoId = params.get('codJogo');  
+
+   // Realizar o envio para o backend
+    fetch('processar_compra.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            meioPagamento: meioPagamento,
+            codJogo: jogoSelecionadoId  // Passar o ID do jogo corretamente
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "jogo_comprado_template.php"; // Redireciona para a página de confirmação de compra
+        } else {
+   
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+});
+
+</script>
+
+
     </div>
     
 <section class="mt-10">
